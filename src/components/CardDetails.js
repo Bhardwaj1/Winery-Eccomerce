@@ -23,10 +23,12 @@ const CardDetails = () => {
                   <p>
                     <strong>Rating : </strong> 4.9
                   </p>
-                  <button>-</button>
-                  <button>0</button>
-                  <button>+</button>
+                  
                 </td>
+                <td><button>-</button>
+                  <button>0</button>
+                  <button>+</button></td>
+                  <td><i class="fa-solid fa-trash text-danger"></i></td>
               </tr>
             </Table>
           </div>

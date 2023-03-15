@@ -9,8 +9,13 @@ import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import cart from "../assets/img/cart.png";
 import { padding } from "@mui/system";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const Header = () => {
+  const getData=useSelector((state)=>state.cartReducer)
+  console.log(getData,"getData");
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (e) => {
