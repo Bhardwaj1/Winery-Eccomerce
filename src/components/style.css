@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.cartIcon {
+  font-size: 2rem;
+  cursor: pointer;
+}
+.navigation-bar {
+  position: sticky !important;
+  top: 0;
+  z-index: 1;
+}
