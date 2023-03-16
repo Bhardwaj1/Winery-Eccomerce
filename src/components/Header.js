@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Container, Nav, Navbar, NavDropdown, NavLink } from "react-bootstrap";
+import {
+  Container,
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavDropdown,
+  NavLink,
+  Table,
+} from "react-bootstrap";
 import "./style.css";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
@@ -10,11 +18,12 @@ import { Link } from "react-router-dom";
 import cart from "../assets/img/cart.png";
 import { padding } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-
+import { remove } from "./Redux/action/action";
 
 const Header = () => {
-  const getData=useSelector((state)=>state.cartReducer)
-  console.log(getData,"getData");
+  const dispatch=useDispatch();
+  const getData = useSelector((state) => state.cartReducer.carts);
+  console.log(getData);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -24,16 +33,20 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const del =(id)=>{
+    dispatch(remove(id))
+  }
+  
 
   return (
     <>
       <Navbar bg="warning " expand="lg" className="navigation-bar">
         <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Link to={"/"} style={{textDecoration:"none"}}> <NavbarBrand>React-Bootstrap</NavbarBrand></Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <NavLink to={"/"}>Home</NavLink>
+              <Link to={"/"} style={{textDecoration:"none"}} ><NavbarBrand to={"/"}>Home</NavbarBrand></Link>
               <NavLink to={"/aboutus"}>About Us</NavLink>
               <Nav.Link href="#link">Contact Us</Nav.Link>
               {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
@@ -50,7 +63,7 @@ const Header = () => {
             </Nav>
           </Navbar.Collapse>
           <Badge
-            badgeContent={4}
+            badgeContent={getData.length}
             color="primary"
             id="demo-positioned-button"
             aria-controls={open ? "demo-positioned-menu" : undefined}
@@ -76,23 +89,61 @@ const Header = () => {
             horizontal: "left",
           }}
         >
-          <div
-            className="d-flex align-items-center justify-content-center"
-            style={{ width: "24rem", padding: 10, position: "relative" }}
-          >
-            <i
-              class="fa-solid fa-xmark"
-              style={{
-                position: "absolute",
-                top: 2,
-                right: 20,
-                fontSize: 24,
-                cursor: "pointer",
-              }}
-            ></i>
-            <p style={{ fontSize: 20,padding:30 }}>Your Cart is empty</p>
-            <img src={cart} style={{ height: 40 }} />
-          </div>
+          {getData.length ? (
+            <div
+              className="card-details"
+              style={{ width: "24rem", padding: 10 }}
+            >
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Wine</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getData.map((e) => {
+                    return (
+                      <>
+                        <tr>
+                          <td>
+                            <Link to={`/cart/${e.id}`}>
+                            <img src={e.image} style={{width:"5rem",height:"5rem"}} onClick={handleClose}></img>
+                            </Link>
+                            
+                          </td>
+                          <td>
+                            <p>{e.winery}</p>
+                            <p>Quantity : 0</p>
+                            <p><i class="fa-solid fa-trash" onClick={()=>{del(e.id)}}></i></p>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          ) : (
+            <div
+              className="d-flex align-items-center justify-content-center"
+              style={{ width: "24rem", padding: 10, position: "relative" }}
+            >
+              <i
+                class="fa-solid fa-xmark"
+                onClick={handleClose}
+                style={{
+                  position: "absolute",
+                  top: 2,
+                  right: 20,
+                  fontSize: 24,
+                  cursor: "pointer",
+                }}
+              ></i>
+              <p style={{ fontSize: 20, padding: 30 }}>Your Cart is empty</p>
+              <img src={cart} style={{ height: 40 }} />
+            </div>
+          )}
         </Menu>
       </Navbar>
     </>

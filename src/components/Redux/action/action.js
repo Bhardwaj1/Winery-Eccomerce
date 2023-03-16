@@ -4,3 +4,9 @@ export const Add=(item)=>{
         payload:item
     }
 }
+export const remove=(id)=>{
+    return{
+        type:"REMOVE_TO_CART",
+        payload:id
+    }
+}
