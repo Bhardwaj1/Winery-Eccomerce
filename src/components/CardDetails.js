@@ -3,7 +3,8 @@ import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { remove } from "./Redux/action/action";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CardDetails = () => {
  const [data,setData]=useState([]);
@@ -27,11 +28,15 @@ const CardDetails = () => {
   useEffect(()=>{
     compare();
   },[id])
+  const notify =()=>{
+    toast("Item has been removed from cart");
+  }
 
   const dispatch=useDispatch();
   const del=(id)=>{
     dispatch(remove(id));
     navigate("/");
+    notify();
   }
   return (
     <>

@@ -19,6 +19,9 @@ import cart from "../assets/img/cart.png";
 import { padding } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import { remove } from "./Redux/action/action";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Header = () => {
   const dispatch=useDispatch();
@@ -33,9 +36,14 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const del =(id)=>{
-    dispatch(remove(id))
+  const notify =(name)=>{
+    toast(` ${name} has been removed from cart`);
   }
+  const del =(id,name)=>{
+    dispatch(remove(id));
+    notify(name);
+  }
+  
   
 
   return (
@@ -47,8 +55,8 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Link to={"/"} style={{textDecoration:"none"}} ><NavbarBrand to={"/"}>Home</NavbarBrand></Link>
-              <NavLink to={"/aboutus"}>About Us</NavLink>
-              <Nav.Link href="#link">Contact Us</Nav.Link>
+              <Link to={"/aboutus"} style={{textDecoration:"none"}}> <NavbarBrand>About Us</NavbarBrand></Link>
+              <Link to={"/contactUs"} style={{textDecoration:"none"}}> <NavbarBrand>Contact Us</NavbarBrand></Link>
               {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -113,9 +121,9 @@ const Header = () => {
                             
                           </td>
                           <td>
-                            <p>{e.winery}</p>
+                            <p>{e.wine}</p>
                             <p>Quantity : 0</p>
-                            <p><i class="fa-solid fa-trash" onClick={()=>{del(e.id)}}></i></p>
+                            <p><i class="fa-solid fa-trash" onClick={()=>{del(e.id ,e.wine)}} style={{cursor:"pointer", color:"red"}}></i></p>
                           </td>
                         </tr>
                       </>

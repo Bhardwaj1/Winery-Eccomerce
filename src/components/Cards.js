@@ -1,9 +1,12 @@
 import { height } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { getAllWine } from "./API/data";
 import { Add } from "./Redux/action/action";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cards = () => {
   const [wineData, setWineData] = useState([]);
@@ -16,17 +19,22 @@ const Cards = () => {
     getAllWineData();
   }, []);
 
+  const notify = (name) => toast(`${name} is added to cart`);
+
   const dispatch = useDispatch();
-  const send=(e)=>{
+  const send = (e,wine) => {
     dispatch(Add(e));
-  }
+    notify(wine);
+  };
   return (
     <>
-      {/* <div className="row"> */}
-      <div className="col">
+      <div>
+      <Row className="m-0">
         {wineData.map((item) => {
           return (
-            <Card style={{ width: "18rem" }} className="d-flex">
+           
+              <Col md={4}>
+              <Card style={{margin:20,height:"25rem"}}>
               <Card.Img
                 variant="top"
                 src={item.image}
@@ -39,15 +47,24 @@ const Cards = () => {
                 </Card.Subtitle>
                 <Card.Text>{item.location}</Card.Text>
 
-                <Button variant="primary"
-                onClick={()=>{send(item)}}
-                >Add To Cart</Button>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    send(item,item.wine);
+                  }}
+                >
+                  Add To Cart
+                </Button>
+                
               </Card.Body>
             </Card>
+              </Col>
+            
           );
         })}
+        </Row>
+        <ToastContainer />
       </div>
-      {/* </div> */}
     </>
   );
 };
