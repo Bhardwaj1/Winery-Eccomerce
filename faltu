@@ -1,8 +1,0 @@
- <TableModal
-            openTableModal={openParentTableModal}
-            setOpenTableModal={setOpenParentTableModal}
-            columnstate={parentColumns}
-            stateRows={filteredParentRows}
-            handleRowClick={handleParentRowClick}
-            handleCloseTableModal={handleParentTableClose}
-            handleSearch={handleParentSearch}
